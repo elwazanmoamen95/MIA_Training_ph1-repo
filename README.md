@@ -1,4 +1,4 @@
-#Linux commands
+# Linux commands
 
 the function of each command:
 
