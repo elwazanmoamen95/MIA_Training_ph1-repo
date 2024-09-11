@@ -13,10 +13,10 @@ double PID_speed = 0;
 double alpha = 0.13;                                                                       
 double filter = 0;                                                                  
 
-PIDController PID(1.0,0.5,0.1);
+PIDController PID(2.0,0.1,0.5);
 
 void setup() {
-  // put your setup code here, to run once:
+  
   pinMode(encoderPinA, INPUT);
   pinMode(encoderPinB, INPUT);
   pinMode(motorPWM, OUTPUT);
@@ -27,14 +27,14 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  
   unsigned long time = millis();
   d_time = (time - last_time) / 1000.0;
   if(d_time > 0){
     Speed = speed();
-    PID_speed = PID.control(desired_Speed,Speed,d_time);
+    PID_speed = PID.control(desired_Speed,Speed,d_time); // return speed from pid_controller class
 
-    filter = alpha * PID_speed + (1 - alpha) * filter;
+    filter = alpha * PID_speed + (1 - alpha) * filter; // Exponential smoothing filter
 
     filter = constrain(filter, 0, 255);
     analogWrite(motorPWM, filter);
@@ -54,7 +54,7 @@ void READENCODER(){
 double speed(){
   static unsigned long last_count = 0;
   long count = count_encoder;
-  double speed = ((count - last_count) / 360.0) * 60.0 / d_time;
+  double speed = ((count - last_count) / 45.0) * 60.0 / d_time; // 45 pulse per revolution
   last_count = count;
 
   return speed;
