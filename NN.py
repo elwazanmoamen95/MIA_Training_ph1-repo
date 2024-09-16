@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 from keras.datasets import mnist
 
-# ------------------ Neural Network from Scratch ------------------
+# Neural Network from Scratch
 
 # 1. Neural Network from Scratch
 def init_params():
@@ -101,40 +101,40 @@ def test_prediction(index, W1, b1, W2, b2):
 
 test_prediction(0, W1, b1, W2, b2)
 
-# ------------------ PyTorch Implementation ------------------
+# PyTorch Implementation
 
-# class NeuralNet(nn.Module):
-#     def __init__(self):
-#         super(NeuralNet, self).__init__()
-#         self.fc1 = nn.Linear(784, 128)
-#         self.relu = nn.ReLU()
-#         self.fc2 = nn.Linear(128, 10)
+class NeuralNet(nn.Module):
+    def __init__(self):
+        super(NeuralNet, self).__init__()
+        self.fc1 = nn.Linear(784, 128)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(128, 10)
     
-#     def forward(self, x):
-#         out = self.fc1(x)
-#         out = self.relu(out)
-#         out = self.fc2(out)
-#         return out
+    def forward(self, x):
+        out = self.fc1(x)
+        out = self.relu(out)
+        out = self.fc2(out)
+        return out
 
-# # Load data into PyTorch tensors
-# X_train_torch = torch.from_numpy(X_train.T).float()
-# Y_train_torch = torch.from_numpy(Y_train).long()
+# Load data into PyTorch tensors
+X_train_torch = torch.from_numpy(X_train.T).float()
+Y_train_torch = torch.from_numpy(Y_train).long()
 
-# # Initialize model, loss, and optimizer
-# model = NeuralNet()
-# criterion = nn.CrossEntropyLoss()
-# optimizer = optim.Adam(model.parameters(), lr=0.001)
+# Initialize model, loss, and optimizer
+model = NeuralNet()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-# # Train the PyTorch model
-# epochs = 500
-# for epoch in range(epochs):
-#     optimizer.zero_grad()
-#     outputs = model(X_train_torch)
-#     loss = criterion(outputs, Y_train_torch)
-#     loss.backward()
-#     optimizer.step()
+# Train the PyTorch model
+epochs = 500
+for epoch in range(epochs):
+    optimizer.zero_grad()
+    outputs = model(X_train_torch)
+    loss = criterion(outputs, Y_train_torch)
+    loss.backward()
+    optimizer.step()
     
-#     if epoch % 100 == 0:
-#         _, predicted = torch.max(outputs, 1)
-#         accuracy = (predicted == Y_train_torch).sum().item() / Y_train_torch.size(0)
-#         print(f'Epoch {epoch}: Loss: {loss.item():.4f}, Accuracy: {accuracy:.4f}')
+    if epoch % 100 == 0:
+        _, predicted = torch.max(outputs, 1)
+        accuracy = (predicted == Y_train_torch).sum().item() / Y_train_torch.size(0)
+        print(f'Epoch {epoch}: Loss: {loss.item():.4f}, Accuracy: {accuracy:.4f}')
