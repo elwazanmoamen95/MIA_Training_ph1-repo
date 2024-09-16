@@ -1,0 +1,2 @@
+# implement NN from scratch 
+
